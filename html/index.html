@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello</title>  
+</head>
+<body>
+    <div id = "root"></div>
+    <script>
+        const rootHandle = document.getElementById('root') // where the operation are to be  performed
+        
+        const h1Tag = document.createElement('h1') // create an object of the html tag
+        const msg = 'Hello World'
+        h1Tag.innerHTML = msg.toUpperCase(h1Tag)
+        rootHandle.appendChild(h1Tag) // appending the tag as child to the body with id = rootHandle
+        
+        const pTag = document.createElement('p')
+        pTag.innerHTML = 'javaScript is Awesome'
+        rootHandle.appendChild(pTag)
+    </script>
+
+</body>
+</html>

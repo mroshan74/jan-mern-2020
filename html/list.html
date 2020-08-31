@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List</title>
+</head>
+<body>
+    <div id = "root">
+        <!-- <h2>Listing players - 8</h2>
+        <ol>
+            <li>sachin</li>
+            <li>dhoni</li>
+            <li>sewag</li>
+            <li>dravid</li>
+            <li>ganguly</li>
+            <li>kapil</li>
+            <li>uthappa</li>
+            <li>yuvraj</li>
+        </ol> -->
+    </div>
+    <script>
+        const rootHandle = document.getElementById('root')
+        const players = ['sachin','dhoni','sewag','dravid','ganguly','kapil','uthappa','yuvraj']
+
+        const h2Tag = document.createElement('h2')
+        h2Tag.innerHTML = `Listing Players - ${players.length}`
+        rootHandle.appendChild(h2Tag)
+
+        const ulTag = document.createElement('ul')
+        rootHandle.appendChild(ulTag)
+
+        players.sort().forEach(function (ele){
+            const liTag = document.createElement('li')
+            liTag.innerHTML = ele
+            ulTag.appendChild(liTag) // li is element inside the ul tag, so its
+        })
+    </script>
+    
+</body>
+</html>

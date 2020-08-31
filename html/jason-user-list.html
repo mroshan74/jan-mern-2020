@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Json request user list</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // Ajax - Asynchronous javascript and xml
+        const rootHandle = document.getElementById('root')
+        const url = 'https://jsonplaceholder.typicode.com/users'
+
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', url)
+        xhr.send()
+
+        // successfully receiving data
+        xhr.onload = function () {
+            // console.log(xhr.responseText)
+            // json to object -> json returned by the server is of string type
+            const users = JSON.parse(xhr.responseText)
+            console.log(users)
+
+            // inside the function due JIT-Asynchronous-synchronous nature and Ajax
+            const h1Tag = document.createElement('h1')
+            h1Tag.innerHTML = 'user list'
+            rootHandle.appendChild(h1Tag)
+
+            for (const user of users) {
+                const h2Tag = document.createElement('h2')
+                h2Tag.innerHTML = `${user.name}`
+                rootHandle.appendChild(h2Tag)
+            }
+        }
+        //error while getting data
+        xhr.onerror = function () {
+        }
+        
+        
+
+
+    </script>
+    
+</body>
+</html>

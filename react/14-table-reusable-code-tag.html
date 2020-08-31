@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>table - code reusability - tag - use of function</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+        const employees = [
+            { id: 1, name: 'muhammed', department: 'tech', email: 'muhammed@gmail.com', gender: 'male' },
+            { id: 2, name: 'roshan', department: 'tech', email: 'roshan@gmail.com', gender: 'male' },
+            { id: 3, name: 'azim', department: 'tech', email: 'azim@gmail.com' , gender: 'male'},
+            { id: 4, name: 'rafat', department: 'finance', email: 'rafat@gmail.com', gender: 'male' },
+            { id: 5, name: 'anshib', department: 'finance', email: 'anshib@gmail.com', gender: 'male' },
+            { id: 6, name: 'anwish', department: 'finance', email: 'anwish@gmail.com', gender: 'male' },
+            { id: 7, name: 'hasna', department: 'tech', email: 'hasna@gmail.com', gender: 'female' },
+            { id: 8, name: 'farha', department: 'finance', email: 'farha@gmail.com', gender: 'female' }
+        ]
+
+
+        const techEmployees = employees.filter(emp => emp.department=='tech')
+        const financeEmployees = employees.filter(emp => emp.department=='finance')
+        const femaleEmployees = employees.filter(emp => emp.gender=='female')
+
+        function EmployeeTable(props){// component - react word for tag-able function
+            return (
+                <div>
+                    <h2>{props.text} - {props.employees.length}</h2> 
+                    <table border='1'>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>name</th>
+                                <th>department</th>
+                                <th>email</th>
+                                <th>gender</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { // inside the block
+                                props.employees.map(function (ele) {  // props is the objects passed to function and employees is the reference taken for the list created
+                                    return (
+                                        <tr key={ele.id}>
+                                            <td>{ele.id}</td>
+                                            <td>{ele.name}</td>
+                                            <td>{ele.department}</td>
+                                            <td>{ele.email}</td>
+                                            <td>{ele.gender}</td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+
+        const ele = (
+            <div>
+                <EmployeeTable employees={employees} text='Listing employees' /> 
+                <EmployeeTable employees={techEmployees} text='Listing employees - tech' />
+                <EmployeeTable employees={financeEmployees} text='Listing employees - finance' />
+                <EmployeeTable employees={femaleEmployees} text='Listing employees - female' />
+            </div>
+            
+        )
+        ReactDOM.render(ele, rootHandle)    
+    </script>
+
+</body>
+
+</html>

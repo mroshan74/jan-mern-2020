@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>fetch user by id</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class FetchUser extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    input: '',
+                    users:[],
+                    status:false
+                }
+            }
+
+            // handleChange =(event) => {
+            //     const inputID =event.target.value
+            //     this.setState({  inputID})
+            // }
+
+            
+            handleChange = (event) => {
+                console.log(event.target.name,event.target.value)
+                this.setState({
+                    [event.target.name]: event.target.value
+                })
+            }
+
+            handleSubmit =(e) =>{
+                e.preventDefault()
+                const xhr = new XMLHttpRequest()
+                xhr.open('GET', `https://jsonplaceholder.typicode.com/users/${this.state.input}`)
+                xhr.send()
+                xhr.onload = () => {
+                    const users = JSON.parse(xhr.responseText)
+                    console.log(users)
+                    this.setState({
+                        users,
+                        status:true
+                        })
+                }
+            }
+            render(){
+                console.log(this.state.users.length)
+                return(
+                    <div>
+                        <form onSubmit={this.handleSubmit}>
+                            <input type="text" name='input' value={this.state.input} onChange={this.handleChange} placeholder='enter user id'/>
+                            <input type="submit" value='submit'/>
+                        </form>
+                        <h3>user details</h3>
+                        <h4>{this.state.status && `id:${this.state.users.id} name:${this.state.users.name} email:${this.state.users.email} phone:${this.state.users.phone}` }</h4>
+
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<FetchUser />,rootHandle)
+    </script>
+
+</body>
+
+</html>

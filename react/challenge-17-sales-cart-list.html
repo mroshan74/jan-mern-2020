@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>sales cart</title>
+</head>
+<style>
+    .dispList{
+        list-style-type: none;
+        background-color: #e8e8e8;
+        max-width: 350px;
+        max-height: 150px;
+        padding: 5px 10px ;
+        margin: 5px 3px;
+    }
+    .price{
+        position: absolute; top: 10px; right:30%;
+
+    }
+</style>
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class CartItems extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    cart: '',
+                    items: [],
+                    price: 0
+                }
+            }
+
+            addToCart = (getData) => {   // data from addItem component
+                this.setState(prevState => ({
+                    items: prevState.items.concat(getData)
+                }))
+            }
+
+            handlePlus = (id) => {  // quantity component
+                console.log('plus', id, this.state.items)
+                this.setState(prevState => ({
+                    items: prevState.items.map(item => {
+                        if (item.id == id) {
+                            return Object.assign({}, item, { quantity: item.quantity + 1 })
+                        }
+                        else
+                            return Object.assign({}, item)
+                    })
+                }))
+            }
+            handleMinus = (id) => { // quantity component
+                console.log('minus', id, this.state.items)
+                this.setState(prevState => ({
+                    items: prevState.items.map(item => {
+                        if (item.id == id) {
+                            return Object.assign({}, item, { quantity: item.quantity - 1 })
+                        }
+                        else
+                            return Object.assign({}, item)
+                    })
+                }))
+            }
+
+            handleRemove = (id) => { // quantity component
+                this.setState(prevState => ({
+                    items: prevState.items.filter(item => item.id != id)
+                }))
+            }
+
+            render() {
+                console.log(this.state.items)
+                // assembling components
+                return (
+                    <div>
+                        <h3>My cart - {this.state.items.length}</h3>
+                        <AddItem addToCart={this.addToCart} />
+                        {this.state.items != 0 && <DisplayCart items={this.state.items} handlePlus={this.handlePlus} handleMinus={this.handleMinus} handleRemove={this.handleRemove} />}
+                        {this.state.items != 0 && <PriceDetail items={this.state.items} />}
+                    </div>
+                )
+            }
+        }
+        class AddItem extends React.Component {  // AddItem for details of the product
+            constructor() {
+                super()
+                this.state = {
+                    name: '',
+                    price: 0,
+                    quantity: 1
+                }
+            }
+
+            handleChange = (e) => {
+                this.setState({
+                    [e.target.name]: e.target.value
+                })
+            }
+
+            handleSubmit = (e) => {
+                e.preventDefault()
+                if (Number.isInteger(parseInt(this.state.price)) && Number.isInteger(parseInt(this.state.quantity)) && this.state.name) {
+                    const formData = {
+                        id: Number(new Date()),
+                        name: this.state.name,
+                        price: parseInt(this.state.price),
+                        quantity: parseInt(this.state.quantity)
+                    }
+                    this.props.addToCart(formData)
+                }
+                else {
+                    alert('the item name is empty or the price/quantity is not an integer')
+                }
+                this.setState({
+                    name: '',
+                    price: 0,
+                    quantity: 1
+                })
+            }
+
+            render() {
+                return (
+                    <div>
+                        <form onSubmit={this.handleSubmit}>
+                            <label htmlFor="name">Name of item  </label>
+                            <input type="text" id='name' name='name' value={this.state.name} onChange={this.handleChange} />
+                            <br /><br />
+                            <label htmlFor="price">Price  </label>
+                            <input type="text" id='price' name='price' value={this.state.price} onChange={this.handleChange} />
+                            <br /><br />
+                            <label htmlFor="quantity">Quantity  </label>
+                            <input type="text" id='quantity' name='quantity' value={this.state.quantity} onChange={this.handleChange} />
+                            <br /><br />
+                            <input type="submit" value='ADD ITEM TO CART' />
+                        </form>
+                    </div>
+                )
+            }
+        }
+
+        function PriceDetail(props) {  // Price details display component
+            let total = 0
+            for (const tag of props.items) {
+                total += tag.price * tag.quantity
+            }
+            return (
+                <div className = 'price'>
+                    <h4><u>Price Detail</u></h4>
+                    <p>Price ({props.items.length}) item</p>
+                    <h5><em>Total Payable -  </em>{total}</h5>
+                </div>
+            )
+        }
+        function QuantityBtn(props) {  // button component
+            console.log('Btn', props)
+            return (
+                <div>
+                    <button disabled={props.item.quantity == 1} onClick={() => { props.handleMinus(props.item.id) }}> - </button>
+                    <input type="text" value={props.item.quantity} disabled />
+                    <button onClick={() => { props.handlePlus(props.item.id) }}> + </button>
+                    <button onClick={() => { props.handleRemove(props.item.id) }}> Remove </button>
+                </div>
+            )
+        }
+        function DisplayCart(props) {  // Display items in cart component
+            return (
+                <div>
+                    <ul>{
+                        props.items.map((item,i) => {
+                            return (
+                                    <li className= 'dispList' key={i}>
+                                        <h3>{item.name}</h3>
+                                        Price:  {item.price} &nbsp;
+                                        per total:  {item.price * item.quantity}
+                                        <QuantityBtn item={item} handlePlus={props.handlePlus} handleMinus={props.handleMinus} handleRemove={props.handleRemove} />
+                                    </li>
+                            )
+                        })
+                    }</ul>   
+                </div>
+            )
+        }
+        ReactDOM.render(<CartItems />, rootHandle)
+    </script>
+
+</body>
+
+</html>

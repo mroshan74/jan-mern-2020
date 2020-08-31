@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>checkbox disabled</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class Checkbox extends React.Component{
+            constructor(){
+                super()
+                this.state={
+                    status: false,
+                    tasks: [
+                        { id: 1, title: 'deploy app', completed: false},
+                        { id: 2, title: 'setup database', completed: false },
+                        { id: 3, title: 'create a new app', completed: false },
+                        { id: 4, title: 'deploy app to staging', completed: false },
+                    ]
+                }
+            }
+            handleCheckboxChange = () =>{
+                this.setState(function(prevState){
+                    return{
+                        status:!prevState.status,
+                        tasks: prevState.tasks.map(function(task){
+                            return Object.assign({},task,{completed : !task.completed})
+                        })
+                    }
+                })
+            }
+            render(){
+                //console.log(this.state.tasks)
+                return(
+                    <div>
+                        <table border='1'>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" checked={this.state.status} onChange={this.handleCheckboxChange}/></th>
+                                    <th>title</th>
+                                    <th>status</th>
+                                </tr>
+                            </thead>
+                            <tbody>{
+                                this.state.tasks.map((task,i) =>{
+                                    return <tr key={i}>
+                                            <td><input type="checkbox" checked={this.state.status} readOnly/></td>
+                                            <td>{task.title}</td>
+                                            <td>{task.completed ? 'completed':'pending'}</td>
+                                        </tr>
+                                })
+                            }</tbody>
+                        </table>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Checkbox/>,rootHandle)
+    </script>
+
+</body>
+
+</html>

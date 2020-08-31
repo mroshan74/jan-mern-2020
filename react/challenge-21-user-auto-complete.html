@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>auto complete user</title>
+</head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    div{
+        text-align: center;
+    }
+    div input{
+        margin: 4px;
+        text-align: center;
+    }
+    ul{
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    li{
+        list-style-type: none;
+        background-color: #e8e8e8;
+        margin:3px;
+        padding:2px;
+    }
+    .auto{
+        text-align: center;
+        max-width:220px;
+        margin:0 auto;
+    }
+    .auto p{
+        text-align: left;
+        font-size: 12px;
+        color: #9b9999
+    }
+</style>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+        class ListUsers extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    users: [],
+                    userType:''
+                }
+            }
+            componentDidMount() {
+                axios.get('https://jsonplaceholder.typicode.com/users')
+                    .then((response) => {
+                        const users = response.data
+                        this.setState({ users })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+
+            handleChange = (e) => {
+                this.setState({[e.target.name]:e.target.value})
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h1>User List Search</h1>
+                        <input type="text" name='userType' id='userType' onChange={this.handleChange} placeholder='type user' value={this.state.userType} />
+                        <AutoComplete users={this.state.users} auto={this.state.userType} />    
+                    </div>
+                )
+            }
+        }
+        function AutoComplete(props){
+            //console.log(props.users,props.auto)
+            let result= props.users.filter(user => user.name.toLowerCase().includes(props.auto.toLowerCase()))
+            return(
+                <div className='auto'>
+                    {props.auto != '' && <p>results found {result.length} </p>}
+                    <ul>{
+                         result.map((ele, i) => {
+                            return <li key={i}>{ele.name}</li>
+                        })
+                    }</ul>
+                </div>
+                )
+            }
+        ReactDOM.render(<ListUsers />, rootHandle)
+    </script>
+
+</body>
+
+</html>

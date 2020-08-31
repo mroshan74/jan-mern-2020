@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>fetch user asc dec order</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+       function sortObjectArray(key, order = 'asc') {
+           // key by which the sort is fired, order asc or desc, both are passed as strings
+            return function innerSort(a, b) {
+                if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+                    // property doesn't exist on either object
+                    return 0
+                }
+
+                const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key]
+                     // checking for integer or string and normalize string to neutral or same case
+                const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key]
+                    
+
+                let comparison = 0
+                if (varA > varB) {
+                    comparison = 1
+                } else if (varA < varB) {
+                    comparison = -1
+                }
+                return (
+                    (order === 'desc') ? (comparison * -1) : comparison
+                    // for descending inverting the returns
+                )
+            }
+        }    
+
+        class SortList extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    users: []
+                }
+            }
+            componentDidMount(){
+                axios.get('https://jsonplaceholder.typicode.com/users')
+                    .then((response) =>{
+                        const users = response.data
+                        this.setState({users})
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+
+            handleAsc = () =>{
+                const users = this.state.users.sort(sortObjectArray('name', 'asc'))
+                this.setState({ users })
+            }
+
+            handleDesc = () => {
+                const users = this.state.users.sort(sortObjectArray('name', 'desc'))
+                this.setState({ users })
+            }
+
+            render(){
+                return(
+                    <div>
+                        <input type="radio" name='sort' id='asc' onClick={this.handleAsc}/>
+                        <label htmlFor="asc">asc</label>
+                        <input type="radio" name='sort' id='dsc' onClick={this.handleDesc}/>
+                        <label htmlFor="dsc">dsc</label>
+                        <ListPrint list={this.state.users} />
+                    </div>
+                )
+            }
+        }
+        function ListPrint(props) {
+                return (
+                    <ul>{
+                        props.list.map((ele, i) => {
+                            return <li key={i}>{ele.name}</li>
+                        })
+                    }</ul>
+                )
+            }
+        ReactDOM.render(<SortList/> ,rootHandle)
+    </script>
+
+</body>
+
+</html>

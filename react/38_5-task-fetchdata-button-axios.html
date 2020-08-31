@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>life-cycle HTTP request using axios</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class UserList extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    users: [], display: ''
+                }
+            }
+
+            handleFetch = () => {
+                // https://jsonplaceholder.typicode.com/users
+                // const xhr = new XMLHttpRequest()
+                // xhr.open('GET', 'https://jsonplaceholder.typicode.com/users')
+                // xhr.send()
+                // xhr.onload = () => {
+                //     const users = JSON.parse(xhr.responseText)
+                //     console.log(users)
+                //     this.setState({users}) 
+                // }
+
+                axios.get('https://jsonplaceholder.typicode.com/users')
+                    .then((response) => {
+                        const users = response.data
+                        this.setState({ users })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+
+
+            render() {
+                console.log(this.state.display)
+                return (
+                    <div>
+                        <button onClick={this.handleFetch}>fetch data</button>
+                        {this.state.users.length > 0 && (
+                            <div>
+                                <h2>Listing users - {this.state.users.length}</h2>
+                                <ul>{
+                                    this.state.users.map(user => {
+                                        return <li key={user.id}>{user.name}</li>
+                                    })
+                                }
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<UserList />, rootHandle)
+    </script>
+
+</body>
+
+</html>

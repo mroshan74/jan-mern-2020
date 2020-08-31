@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>insert list form</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+    
+        class InputList extends React.Component{
+            constructor(){
+                super()
+                this.state={
+                    item: '',
+                    array:[],
+                    display:''
+                }
+            }
+                                
+            handleInputItem = (event) => {
+                const item = event.target.value
+                this.setState({item})
+            }
+
+            handleSubmit = (event) => {
+                event.preventDefault()
+                this.setState(function (prevState) {
+                    return {
+                        array: prevState.array.concat(this.state.item),
+                        item: ''
+                    }
+                })
+                const formData = {
+                    item: this.state.item,
+                    array: this.state.array
+                }
+            }
+            render(){
+                return(
+                    <div>
+                        <h1>Hobbies</h1>
+                        < ul > {
+                            this.state.array.map((ele, i) => {
+                                return <li key={i}>{ele}</li>
+                            })
+                        }</ul >
+                        <span>{this.state.display}</span>
+                        <form onSubmit={this.handleSubmit}>
+                            <input type="text" id="item" value={this.state.item} onChange={this.handleInputItem} placeholder='enter item'/>
+                            <br/><br/>
+                            <input type='submit' value='submit'/>
+                        </form>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<InputList/>, rootHandle)
+    </script>
+
+</body>
+
+</html>

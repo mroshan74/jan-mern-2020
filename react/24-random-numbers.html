@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>template</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+        class Generate extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    number:'',
+                    nums:[]
+                }
+            }
+            
+            handleGenerate = ()=>{
+                const rNumber = Math.round(Math.random()*100)
+                this.setState(function(prevState){
+                    return{
+                        number: rNumber,
+                        nums: prevState.nums.concat(rNumber)
+                    }
+                })
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h2>Random Numbers</h2>
+                        <h2>{this.state.number}</h2>
+                        <button onClick={this.handleGenerate}>generate</button>
+                        <h2>Random Numbers generated so far - {this.state.nums.length}</h2>
+                        <ul>{
+                            this.state.nums.map(function(ele,i){
+                                return(<li key={i}>{ele}</li>)
+                            })
+                        }
+                        </ul>   
+                    </div>
+                )
+            }
+
+        }
+
+        ReactDOM.render(<Generate />, rootHandle)    
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>template</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+        class CounterByTwo extends React.Component{
+            constructor(){
+                super()
+                this.state ={
+                    count: 0
+                }
+            }
+            handleByTwo =()=>{
+                this.setState(function(prevState){
+                    return{
+                        count: prevState.count + 2
+                    }
+                })
+             }
+            handleRandom = ()=>{
+                this.setState(function(){
+                    const random = Math.round(Math.random() * 100)
+                    return{
+                        count: random
+                    }
+                })
+            }
+            render(){
+                return(
+                    <div>
+                    <h1>{this.state.count}</h1>
+                    <button onClick={this.handleByTwo}>up by 2</button>
+                    <button onClick={this.handleRandom}> generateRandom </button>
+                    </div>
+                )
+            }
+        }
+    ReactDOM.render(<CounterByTwo />, rootHandle)
+    </script>
+
+</body>
+
+</html>

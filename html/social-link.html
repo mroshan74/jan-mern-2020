@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Media</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <script>
+        const rootHandle = document.getElementById('root')
+        const social = [
+            { id: 1, name: 'facebook', url: 'http://www.facebook.com' },
+            { id: 2, name: 'google', url: 'http://www.google.com' },
+            { id: 3, name: 'instagram', url: 'http://www.instagram.com' }
+        ]
+
+        const h2Tag = document.createElement('h2')
+        h2Tag.innerHTML = `Social Media Links - ${social.length}`
+        rootHandle.appendChild(h2Tag)
+
+        const ulTag = document.createElement('ul')
+        rootHandle.appendChild(ulTag)
+
+        for(const link of social){
+            const liTag = document.createElement('li')
+            const aTag = document.createElement('a')
+            aTag.setAttribute('href',link.url)
+            aTag.setAttribute('target','new')
+            aTag.innerHTML = link.name
+            liTag.appendChild(aTag)
+            ulTag.appendChild(liTag)
+            
+        }
+
+    </script>
+</body>
+
+</html>

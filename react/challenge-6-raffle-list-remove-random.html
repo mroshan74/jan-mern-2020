@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>list remove</title>
+</head>
+<style>
+    h1{
+        text-align: center;
+        font-size: 55px;
+    }
+    div{
+        margin: auto 25%;
+        justify-content: center;
+    }
+    p{
+        color:red;
+        text-align: center;
+    }
+    li{
+        list-style-type: none;
+        font-family: sans-serif;
+        background-color: #e8e8e8;
+        width: 150px;
+        height:25px;
+        text-align:center;
+        border:lightgray;
+        margin: 2px 2px;
+
+
+    }
+    button{
+        background-color: rgb(92, 191, 253);
+        color:white;
+        text-align: center;
+        width: 150px;
+        height:25px;
+        border: 0px;
+        margin:auto 20%;
+        object-position: center;
+        position: relative;
+
+    }
+    button:disabled{
+        background-color: lightblue;
+        color:white;
+        text-align: center;
+        width: 150px;
+        height:25px;
+        border: 0px;
+        margin:auto 20%;
+        object-position: center;
+        position: relative;
+    }
+</style>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+    class RandomDelete extends React.Component{
+        constructor(){
+            super()
+            this.state={
+                users : ['tina','arjun','nawaz','azim','muhammed'],
+                randomUser:'-',
+                status:false
+            }
+        }
+        handleDraw = () =>{
+            
+            function getRandomGenerate(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+            }
+            let randomNo = getRandomGenerate(0,this.state.users.length-1)
+            this.setState(function(prevState){
+                return{
+                    randomUser: this.state.users[randomNo],
+                    users: prevState.users.filter((ele,i) => i!=randomNo)
+                }
+            })
+            if(this.state.users.length <= 1){
+                document.getElementById('buttonStatus').disabled = true
+            }
+        }
+        render(){
+            return(
+                <div>
+                    <h1>{this.state.randomUser}</h1>
+                    <hr/>
+                    <ul>{
+                        this.state.users.map(function(user,i){
+                            return( <li key={i}>{user}</li> )
+                        })
+                    }
+                    </ul>
+                    <button id='buttonStatus' onClick={this.handleDraw}>DRAW</button>
+                    <p>{this.state.users.length == 0 ? 'No users to draw from' : ''}</p>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(<RandomDelete/>,rootHandle)
+    </script>
+
+</body>
+
+</html>

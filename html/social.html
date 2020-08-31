@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Media</title>
+</head>
+<body>
+    <div id = "root">
+
+    </div>
+    <script>
+    const placeThisGoes = document.getElementById('root')
+    const social = [
+        { id : 1, name : 'facebook', url : 'http://www.facebook.com'},
+        { id : 2, name : 'google', url : 'http://www.google.com' },
+        { id : 3, name : 'instagram', url : 'http://www.instagram.com' }
+    ]
+
+    const h2Tag = document.createElement('h2')
+    h2Tag.innerHTML = `Social Media Links - ${social.length}`
+    placeThisGoes.appendChild(h2Tag)
+
+    const ulTag = document.createElement('ul')
+    placeThisGoes.appendChild(ulTag)
+
+    social.forEach(function(social){
+        const liTag = document.createElement('li')
+        liTag.innerHTML =`${social.name} - ${social.url}`
+        ulTag.appendChild(liTag)
+    })
+    </script>
+</body>
+</html>

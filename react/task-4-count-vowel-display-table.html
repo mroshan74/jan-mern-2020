@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>count vowel form table from input</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        function VowelTable(props){
+            
+            if(props.string.length>0){
+                let vowels = 'aeiouAEIOU'
+                let vowelCount = {a:0,e:0,i:0,o:0,u:0}
+                for(const char of props.string){
+                    if(vowels.includes(char)){
+                       {
+                           if(vowelCount.hasOwnProperty(char))
+                           {
+                               vowelCount[char]=vowelCount[char]+1
+                           }
+                       } 
+                    }
+                }
+            let newObjectArray=[]
+            let newVowelArray=Object.entries(vowelCount)
+            
+            //convert array to array of objects
+            for (const ele of newVowelArray) {
+                let key,value
+                for (let i = 0; i < ele.length; i++) {
+                     key = ele[0], value = ele[1]
+                    } 
+                        newObjectArray.push({[key]: value })
+            }
+            // console.log(newObjectArray)
+            return( 
+                <div>
+                    <table border='1'>
+                        <thead>
+                            <tr>
+                                <th>a</th>
+                                <th>e</th>
+                                <th>i</th>
+                                <th>o</th>
+                                <th>u</th>
+                            </tr>
+                        </thead>
+                        <tbody>{
+                        <tr>{   
+                                newObjectArray.map(function(ele,i){         
+                                        for(const key in ele){
+                                           return (<td key={i}>{ele[key]}</td>)
+                                        }
+                            })
+                        }
+                        </tr>
+                    }</tbody>
+                    </table>
+                </div>
+            )
+        }
+        else
+            return <p>No text to find count</p>
+    }
+
+        class VowelsRead extends React.Component{
+            constructor(){
+                super()
+                this.state={
+                    text:'',
+                    display:''
+                }
+            }
+            handleChangeText = (event) =>{
+                const text= event.target.value
+                this.setState({text})
+            }
+            handleSubmit = (event) =>{
+                event.preventDefault()
+                this.setState({
+                    display: <VowelTable string={this.state.text} />
+                })
+            }
+            render(){
+                return(
+                    <div>
+                        <h2>Vowel Counter</h2>
+                        <form onSubmit={this.handleSubmit}>
+                        <textarea id='textarea' value={this.state.text} onChange={this.handleChangeText} placeholder='enter your text here'></textarea>
+                        <br/><br/>
+                        <input type="submit" value="count vowels"/>
+                        <br /><br />
+                        <span>{this.state.display}</span>
+                        </form>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<VowelsRead/>,rootHandle)
+    </script>
+
+</body>
+
+</html>

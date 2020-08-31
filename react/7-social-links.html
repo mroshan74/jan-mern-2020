@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>social links</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        const links = [
+            { id: 1, name: 'facebook', url: 'http://www.facebook.com' },
+            { id: 2, name: 'YouTube', url: 'http://www.youtube.com' },
+            { id: 3, name: 'instagram', url: 'http://www.instagram.com' }
+        ]
+        const ele = (
+            <ul>
+                {
+                    links.map(function (link) {
+                        return (
+                            <li key={link.id}>
+                                <a href={link.url} target="_blank">{link.name}</a>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        )
+        ReactDOM.render(ele, rootHandle)
+    </script>
+
+</body>
+
+</html>

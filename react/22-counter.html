@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>counter - class component</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class Counter extends React.Component{
+            constructor(){
+                // React Component -> is the parent class 
+                // to call constructor inside the child we need to call super() -> part of the syntax
+                super() // call the parent's constructor before accessing 'this' -> inheriting from the React.Component class
+                this.state = {  //  almost always an object, as we can store multiple values that is needed to be assigned
+                    count :0
+                }
+            }
+
+            handleUp = () =>{ // this function gets called only when up btn gets clicked
+                // update state values directly - yes
+                // is it good method - no
+                // why? -> they are not directly rendered to the UI
+                // this.state.count += 1
+                // console.log(this.state)
+                // setState is used for updating value of state -> re-render
+                // setState takes a function as argument (call back), prevState is the previous state value being passed as an argument
+                this.setState(function (prevState){ // this call back function MUST return an object, the object will now become the new state
+                    return{
+                        count: prevState.count + 1
+                    }
+
+                })
+            }
+
+            handleReset = () => { // this function gets called only when reset btn gets clicked
+                this.setState(function(prevState){
+                    return{
+                        count: 0
+                    }
+                })
+            }
+
+            handleDown = () => { // this function gets called only when down btn gets clicked
+                this.setState(function (prevState) {
+                    return{
+                        count: prevState.count - 1
+                    }
+                })
+            }
+
+            render(){ // is responsible for the UI to display to the user
+                return(
+                    <div>
+                    <h1> {this.state.count} </h1>
+                    <button onClick = {this.handleUp}> up </button> 
+                    {/* we don't call handleUp() or others as function call because, it will go into infinite loop, since its re-rendered again, so we use this -> to refer to the function */}
+                    <button onClick = {this.handleDown}> down </button>
+                    <button onClick = {this.handleReset}> reset </button>
+                    </div>
+                )
+
+            }
+        }
+        const ele = (
+            <div>
+                <Counter />
+                <Counter />
+            </div>
+        )
+
+        ReactDOM.render(ele, rootHandle)
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>user list axios</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class User extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    users: []
+                }
+            }
+
+            componentDidMount() {
+                // https://jsonplaceholder.typicode.com/users
+               
+                axios.get('https://jsonplaceholder.typicode.com/users')
+                    .then((response) => {
+                        const users = response.data // data is property where the received data stored and can be accessed
+                        this.setState({ users })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h2>Listing users - {this.state.users.length}</h2>
+                        <UserList users={this.state.users}/>
+                    </div>
+                )
+            }
+        }
+        function UserList(props){
+            return(
+                 <ul>{
+                    props.users.map(user => {
+                        return <li key={user.id}>{user.name}</li>
+                    })
+                }
+                </ul>
+            )
+        }
+        ReactDOM.render(<User />, rootHandle)
+    </script>
+
+</body>
+
+</html>

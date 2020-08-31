@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>task app server dummy update</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class TasksList extends React.Component {
+                constructor() {
+                    super()
+                    this.state = {
+                        tasks: [],
+                        title: ''
+                    }
+                }
+
+                componentDidMount() {
+                    axios.get('http://localhost:3033/tasks')
+                        .then((response) => {
+                            const tasks = response.data
+                            this.setState({ tasks })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                }
+
+                handleClick = (task) => {
+                    alert(`id - ${task.id}, title - ${task.title}, completed - ${task.completed}`)
+                }
+
+                handleRemove = (id) => {
+                    const confirmRemove = window.confirm("Are you sure?")
+                    if (confirmRemove) {
+                       axios.delete(`http://localhost:3033/tasks/${id}`)
+                            .then((response) => {
+                                const rTask = response.data
+                                this.setState((prevState) => ({
+                                    tasks: prevState.tasks.filter(task => task.id != rTask.id)
+                                }))
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
+                }
+
+                handleTitleChange = (e) => {
+                    const title = e.target.value
+                    this.setState({ title })
+                }
+
+                handleSubmit = (e) => {
+                    e.preventDefault()
+                    const task = {
+                        id: Number(new Date()),
+                        title: this.state.title,
+                        completed: false
+                    }
+                    if (task.title) {
+                        axios.post('http://localhost:3033/tasks', task)  // task is object -> second argument is object
+                            .then((response) => {
+                                const task = response.data
+                                this.setState(prevState => ({
+                                    tasks: prevState.tasks.concat(task),
+                                    title:''
+                                }))
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    } else {
+                        alert('title cant be blank')
+                    }
+                }
+
+                handleComplete = (task) => {
+                    axios.put(`http://localhost:3033/tasks/${task.id}`, {completed : !task.completed})
+                        .then((response) =>{
+                            const uTask =response.data
+                            this.setState(prevState => ({
+                                tasks: prevState.tasks.map(function (task) {
+                                    if (task.id == uTask.id) {
+                                        return Object.assign({}, task, uTask)
+                                    } else {
+                                        return Object.assign({}, task)
+                                    }
+                                })
+                            }))
+                        })
+                        .catch((err) =>{
+                            console.log(err)
+                        })
+                }
+
+                render() {
+                    //console.log(this.state)
+                    return (
+                        <div>
+                            <h2> Listing Tasks - {this.state.tasks.length} </h2>
+                            <table border="1">
+                                <thead>
+                                    <tr>
+                                        <th> sl no </th>
+                                        <th> title </th>
+                                        <th> actions </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.state.tasks.map((task, i) => {
+                                            return (
+                                                <tr key={task.id}>
+                                                    <td> {i + 1} </td>
+                                                    <td> {task.title} </td>
+                                                    <td>
+
+                                                        <input type="checkbox" checked={task.completed} onChange={() => {
+                                                            this.handleComplete(task)
+                                                        }} />
+
+                                                        <button onClick={() => {
+                                                            this.handleClick(task)
+                                                        }}> show </button>
+
+                                                        <button onClick={() => {
+                                                            this.handleRemove(task.id)
+                                                        }}> remove </button>
+
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
+                            </table>
+
+                            <h2> Add Task </h2>
+                            <form onSubmit={this.handleSubmit}>
+                                <label htmlFor="title"> title </label>
+                                <input type="text" id="title" value={this.state.title} onChange={this.handleTitleChange} />
+                                <input type="submit" value="add" />
+                            </form>
+                        </div>
+                    )
+                }
+            }
+        ReactDOM.render(<TasksList />, rootHandle)
+    </script>
+
+</body>
+
+</html>

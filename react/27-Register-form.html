@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Forms</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class Registration extends React.Component{
+            constructor(){
+                super()
+                this.state={
+                    username:'',
+                    email:''
+                }
+            }
+            handleUsernameChange = (event) => {
+                const username = event.target.value
+                this.setState({username})
+            }
+            handleEmailChange = (event) => {
+                const email = event.target.value
+                this.setState({ email })
+            }
+            handleSubmit = (event) => {
+                event.preventDefault()
+                const formData = {
+                    username: this.state.username,
+                    email: this.state.email
+                }
+                //console.log(formData)
+            }
+            render(){
+                console.log(this.state)
+                return(
+                    <div>
+                        <form onSubmit={this.handleSubmit}>
+                            <h1>Registration Form</h1>
+
+                            <label htmlFor='username'>username</label>
+                            <input type="text" id='username' value={this.state.username} onChange={this.handleUsernameChange} placeholder='enter username'/><br/><br/> {/* value is linked with state -> to get updated state*/}
+
+                            <label htmlFor='email'>email</label>
+                            <input type="text" id='email' value={this.state.email} onChange={this.handleEmailChange} placeholder= 'enter email' /><br /><br />
+
+                            <input type='submit' value='Register Now'/>
+                        </form>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Registration />,rootHandle)
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>life cycle method</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class Greet extends React.Component {
+                constructor() {
+                    console.log('constructor')
+                    super()
+                    this.state = {
+                        count: 0
+                    }
+                }
+
+                handleClick = () => {
+                    console.log('handleClick')
+                    this.setState(prevState => ({
+                        count: prevState.count + 1
+                    }))
+                }
+
+                // life cycle method
+                componentDidMount(){  // immediately called only once after render methods gets executed -> not called after it is fired once 
+                    console.log('component did mount')
+                }
+
+
+                render() {
+                    console.log('render')
+                    return (
+                        <div>
+                            <h1>Greet component </h1>
+
+                            <h1> {this.state.count} </h1>
+
+                            <button onClick={this.handleClick}> up </button>
+                        </div>
+                    )
+                }
+            }
+
+            ReactDOM.render(<Greet />, rootHandle)
+
+    </script>
+
+</body>
+
+</html>

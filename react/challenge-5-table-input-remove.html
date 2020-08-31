@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>table input remove</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class ListingUsers extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    users: [
+                        { id: 1, name: 'user1', email:'user1@gmail.com' },
+                        { id: 2, name: 'user2', email:'user2@gmail.com' },
+                        { id: 3, name: 'user3', email:'user3@gmail.com' },
+                        { id: 4, name: 'user4', email:'user4@gmail.com' },
+                        { id: 5, name: 'user5', email:'user5@gmail.com' },
+                        { id: 6, name: 'user6', email:'user6@gmail.com' }
+                    ],
+                    userEmail:''
+                }
+            }
+            handleChangeUser = (e) => {
+                const userEmail = e.target.value
+                this.setState({userEmail})
+            }
+            handleSubmit = (e) => {
+                e.preventDefault()
+                const formData={
+                    users:this.state.users
+                }
+                this.setState(function (prevState) {
+                    return{
+                        users: prevState.users.filter(user => user.email != this.state.userEmail),
+                        userEmail:''
+                    }
+                })
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h2>Listing Users - {this.state.users.length}</h2>
+                        <table border='1'>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>name</th>
+                                    <th>email</th>
+                                </tr>
+                            </thead>
+                            <tbody>{
+                                this.state.users.map((user, i) => {
+                                    return (
+                                        <tr key={user.id}>
+                                            <td>{i + 1}</td>
+                                            <td>{user.name}</td>
+                                            <td>{user.email}</td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                            </tbody>
+                        </table>
+                        <form onSubmit={this.handleSubmit}>
+                            <h4>remove user form</h4>
+                            <input type="text" value={this.state.userEmail} onChange={this.handleChangeUser} placeholder='enter email user to be removed' />
+                            <br/><br/>
+                            <input type="submit" value='Remove'/>
+                        </form>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<ListingUsers />, rootHandle)
+    </script>
+
+</body>
+
+</html>

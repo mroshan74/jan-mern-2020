@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Random Even Odd</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <style>
+        h1,h2 {
+            max-width: 50px;
+            padding: 4px;
+            margin: 2px;
+            background-color: white;
+            text-align: center;
+        }
+    </style>
+    <script>
+        const rootHandle = document.getElementById('root')
+
+        const h1Tag = document.createElement('h1')
+        rootHandle.appendChild(h1Tag)
+
+        const genBtn = document.createElement('button')
+        genBtn.innerHTML = 'generate'
+        rootHandle.appendChild(genBtn)
+
+        function oddEven(num, tag) {
+            if (num % 2 == 0) {
+                num = tag.innerHTML = `${num}`.fontcolor('black')                
+                tag.style.backgroundColor = 'green'
+            }
+            else {
+                num = tag.innerHTML = `${num}`.fontcolor('white')                
+                tag.style.backgroundColor = 'red'
+            }
+
+        }
+
+        let list = []
+        genBtn.addEventListener('click', () => {
+            const randomGen = Math.round(Math.random() * 100)
+            list.push(randomGen)
+
+            //oddEven(randomGen,h1Tag)
+            h1Tag.innerHTML = randomGen
+
+            const h2Tag = document.createElement('h2')
+            for (const ele of list) {
+                h2Tag.innerHTML = ele
+                oddEven(ele,h2Tag)
+                rootHandle.appendChild(h2Tag)
+            }
+        })
+    </script>
+</body>
+
+</html>

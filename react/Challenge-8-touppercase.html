@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>to uppercase</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        function ToUpper(prop){
+            return(
+                <h4>{prop.string.toUpperCase()}</h4>
+            )
+        }
+        class ConvertUpper extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    string:''
+                }
+            }
+            handleChangeText = (e)=>{
+                const string = e.target.value
+                this.setState({string})
+            }
+            render(){
+                return(
+                    <div>
+                        <h2>Display in Caps</h2>
+                        <ToUpper string={this.state.string} /><br/>
+                        <textarea cols="30" rows="10" placeholder='enter the text here...' onChange={this.handleChangeText}></textarea>
+
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<ConvertUpper/>,rootHandle)
+    </script>
+
+</body>
+
+</html>

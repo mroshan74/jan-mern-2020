@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+    <title>buttonCounter</title>
+</head>
+<body>
+    <div id = "root"></div>
+    <script>
+        const rootHandle = document.getElementById("root")
+
+        const h1Tag = document.createElement('h1')
+        h1Tag.innerHTML= 0
+        rootHandle.appendChild(h1Tag)
+
+        const upBtn = document.createElement('button')
+        upBtn.innerHTML = 'up'
+        rootHandle.appendChild(upBtn)
+
+        upBtn.addEventListener('click',()=> h1Tag.innerHTML = parseInt(h1Tag.innerHTML)+1)
+
+        const downBtn = document.createElement('button')
+        downBtn.innerHTML = 'down'
+        rootHandle.appendChild(downBtn)
+
+        downBtn.addEventListener('click',()=> h1Tag.innerHTML = parseInt(h1Tag.innerHTML)-1)
+
+        const rstBtn = document.createElement('button')
+        rstBtn.innerHTML = 'Reset'
+        rootHandle.appendChild(rstBtn)
+
+        rstBtn.addEventListener('click',() => {
+            confirmReset = confirm('Are u sure ')
+            if(confirmReset)
+             h1Tag.innerHTML = 0
+            })
+    </script>
+</body>
+</html>

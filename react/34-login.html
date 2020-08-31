@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Form</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+        class Login extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    email: '',
+                    password: '',
+                    status:false
+                }
+            }
+
+            handleChange = (event) => {
+                //console.log(event.target.name,event.target.value)
+                this.setState({
+                    [event.target.name]:event.target.value
+                })
+            }
+            handleChangeCheckbox = () =>{
+                this.setState(prevState => ({status: !prevState.status}))
+            }
+
+
+            render() {
+                console.log(this.state.status)
+                return (
+                    
+                    <div>
+                        <h2> Login Form </h2>
+                        <form>
+                            <label htmlFor="email"> email </label>
+                            <input type="text" id="email" name='email' value={this.state.email} onChange={this.handleChange} /> <br />
+
+                            <label htmlFor='password'> password </label>
+                            <input type={this.state.status ? 'text' : 'password'} id="password" name='password' value={this.state.password} onChange={this.handleChange} /> <br />
+                            
+                            
+                            <input type="checkbox" checked={this.state.status} id='box' onChange={this.handleChangeCheckbox}/>
+                            <label htmlFor="box">Show password</label>
+                        </form>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Login />, rootHandle)
+
+    </script>
+</body>
+
+</html>

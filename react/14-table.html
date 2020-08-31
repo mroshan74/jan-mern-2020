@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>table</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+
+        const employees = [
+            { id: 1, name: 'muhammed', department: 'tech', email: 'muhammed@gmail.com'},
+            { id: 2, name: 'roshan', department: 'tech', email: 'roshan@gmail.com' },
+            { id: 3, name: 'azim', department: 'tech', email: 'azim@gmail.com' },
+            { id: 4, name: 'rafat', department: 'finance', email: 'rafat@gmail.com' },
+            { id: 5, name: 'anshib', department: 'finance', email: 'anshib@gmail.com' },
+            { id: 6, name: 'anwish', department: 'finance', email: 'anwish@gmail.com' },
+            { id: 7, name: 'hasna', department: 'tech', email: 'hasna@gmail.com' },
+            { id: 8, name: 'farha', department: 'finance', email: 'farha@gmail.com' }
+        ]
+
+        const ele = (
+            <div>
+                <h2>Listing of employees : {employees.length}</h2>
+                <table border='1'>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>name</th>
+                            <th>department</th>
+                            <th>email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            employees.map(function(ele){
+                                return (
+                                    <tr key={ele.id}>
+                                        <td>{ele.id}</td>
+                                        <td>{ele.name}</td>
+                                        <td>{ele.department}</td>
+                                        <td>{ele.email}</td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
+        )
+    ReactDOM.render(ele, rootHandle)    
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>browser local save</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class LocalSave extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    title: localStorage.length != 0 ? localStorage.getItem('title') : '',
+                    text: localStorage.length != 0 ? localStorage.getItem('text') : ''
+                }
+            }
+
+            handleChange = (e) => {
+                this.setState({[e.target.name]:e.target.value})
+            }
+
+            saveToBrowser = () =>{
+                localStorage.setItem('title',this.state.title),
+                localStorage.setItem('text', this.state.text)
+            }
+            // componentDidMount(){
+            //     if(localStorage.length != 0)
+            //     this.setState({
+            //         title: localStorage.getItem('title'),
+            //         text: localStorage.getItem('text')
+            //     })
+            // }
+
+            handleReset = () => {
+                localStorage.clear()
+                location.reload()
+            }
+
+            render(){
+                //console.log(localStorage.getItem('title'))
+                return(
+                    <div>
+                        <label htmlFor="title">title</label><br/>
+                        <input type="text" name='title' id='title' value={this.state.title} onChange={this.handleChange} onBlur={this.saveToBrowser}/>
+                        <br/><br/>
+                        <textarea name="text" id="text" cols="50" rows="10" placeholder='enter text here' value={this.state.text} onChange={this.handleChange} onBlur={this.saveToBrowser}></textarea>
+                        <br /><br />
+                        <input type="button" value='save' onClick={this.saveToBrowser}/>
+                        <input type="button" value='reload' onClick={this.handleReset} />
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<LocalSave/>,rootHandle)
+    </script>
+
+</body>
+
+</html>

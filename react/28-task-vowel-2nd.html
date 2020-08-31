@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>count vowel form table from input</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        function vowelCount(props) {
+
+            if (props.length > 0) {
+                let vowels = 'aeiou'
+                let vowelCount = { a: 0, e: 0, i: 0, o: 0, u: 0 }
+                for (const char of props) {
+                    if (vowels.includes(char)) {
+                        {
+                            if (vowelCount.hasOwnProperty(char)) {
+                                vowelCount[char] = vowelCount[char] + 1
+                            }
+                        }
+                    }
+                }
+                let newObjectArray = []
+                let newVowelArray = Object.entries(vowelCount)
+                newVowelArray.sort()
+                //console.log(newVowelArray)
+                //convert array to array of objects
+                for (const ele of newVowelArray) {
+                    let key, value
+                    for (let i = 0; i < ele.length; i++) {
+                        key = ele[0], value = ele[1]
+                    }
+                    newObjectArray.push({ [key]: value })
+                }
+                //console.log(newObjectArray)
+                return newObjectArray
+            }
+            else
+                return []
+        }
+
+        class VowelsRead extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    text: '',
+                    vowels: []
+                }
+            }
+            handleChangeText = (event) => {
+                const text = event.target.value
+                this.setState({ text })
+            }
+            handleSubmit = (event) => {
+                event.preventDefault()
+                this.setState({
+                    vowels:vowelCount(this.state.text)
+                })
+                //console.log(this.state.vowels)
+            }
+            render() {
+                //console.log(this.state.vowels)
+                return (
+                    <div>
+                        <h2>Vowel Counter</h2>
+                        <form onSubmit={this.handleSubmit}>
+                            <input type="textarea" id='textarea' value={this.state.text} onChange={this.handleChangeText} placeholder='enter your text here' />
+                            <br /><br />
+                            <input type="submit" value="count vowels" />
+                            <br /><br />
+                            <table border='1'>
+                                <thead>
+                                    <tr>
+                                        <th>a</th>
+                                        <th>e</th>
+                                        <th>i</th>
+                                        <th>o</th>
+                                        <th>u</th>
+                                    </tr>
+                                </thead>
+                                <tbody>{
+                                    <tr>{
+                                        this.state.vowels.map(function(ele,i){
+                                            for (const key in ele){
+                                                return <td key={i}>{ele[key]}</td>
+                                            }
+                                        })                                        
+                                    }</tr> 
+                                }</tbody>
+                            </table>
+                        </form>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<VowelsRead />, rootHandle)
+    </script>
+
+</body>
+
+</html>

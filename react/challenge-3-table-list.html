@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Swap</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        let users= [
+                { id: 1, email: 'user1@gmail.com' },
+                { id: 2, email: 'user2@gmail.com' },
+                { id: 3, email: 'user3@gmail.com' },
+                { id: 4, email: 'user4@gmail.com' },
+                { id: 5, email: 'user5@gmail.com' },
+                { id: 6, email: 'user6@gmail.com' }
+            ]
+        function TagList(props){
+            return (
+                <ol>{
+                        props.users.map(function (ele, i) {
+                        return (<li key={i}>{ele.email}</li>)
+                    })
+                }</ol>
+            )
+        }
+        function TagTable(props){
+                return(
+                    <table border='1'>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            props.users.map(function (ele, i) {
+                                return (
+                                    <tr key={i}>
+                                        <td>{ele.id}</td>
+                                        <td>{ele.email}</td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
+            )
+        }
+    class Swap extends React.Component{
+        constructor(){
+            super()
+            this.state={
+                display: <TagList users={users} />,
+                status:true
+            }
+        }
+        handleList =()=>{
+            this.setState(function(display){
+                return{
+                    display: <TagList users={users}/>,
+                    status:true
+                }
+            })
+        }
+        handleTable = () => {
+            this.setState(function (display) {
+                return {
+                    display: <TagTable users={users} />,
+                    status: false
+                }
+            })
+        }
+        render(){
+            return(
+                <div>
+                <input type='radio' name='swapper' id='swap1' checked={this.state.status} onChange={this.handleList} />
+                <label id='swap1'>Lists</label>
+                <input type='radio' name='swapper' id='swap2' onChange={this.handleTable} />
+                <label id='swap2'>Table</label>
+                <span>{this.state.display}</span>
+                </div>
+            )
+        }
+    }      
+    ReactDOM.render(<Swap/>,rootHandle)
+    </script>
+
+</body>
+
+</html>

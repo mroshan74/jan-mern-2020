@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XHR Requests</title>
+</head>
+<body>
+    <div id = "root"></div>
+    <script>
+        const rootHandle = document.getElementById('root')
+        const url = 'https://jsonplaceholder.typicode.com/users'
+
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET',url)
+        xhr.send()
+
+        // successfully receiving data
+        xhr.onload = function(){
+            // console.log(xhr.responseText)
+            // json to object -> json returned by the server is of string type
+            const users =JSON.parse(xhr.responseText)
+            console.log(users)
+        }
+        //error while getting data
+        xhr.onerror = function(){
+
+        }
+
+    </script>
+
+    
+</body>
+</html>

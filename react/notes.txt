@@ -1,0 +1,41 @@
+*** 18-02-2020 React Components
+
+anything that is rendered once with react will not re-render even the variable value is changed, so we will have to re-render the component again
+setTimeOut( call back function(){},time )  called only once
+setInterval( call back function(){},time)  called after again every time interval
+
+function and class Components
+class components has something to do with behavior and events
+function components more into display of components like information to the user, meant for presentation
+
+React - 2013
+jS - classes - 2015 -react 16
+
+class in React
+
+class <name> extends React.Component{
+    render (){ // must return render component // if not it will throw an error
+        return 
+    }
+}
+
+Difference between states and props?
+
+parameter of setState is prevState- can be called anything, but its preferred to be called prevState
+but this.state the state variable cannot be changed.
+
+
+read 1- 8 in reactjs.org
+internet is hard css box,flex-box,
+
+// es6 - object destructuring----------------
+const user = {
+    firstName : 'roshan',
+    email: 'rosh@gmail.com'
+}
+
+const { firstName, email } = user
+console.log(firstName, email)----------------------//
+
+function cant re render but class can
+this.state is an object. why? => to store multiple values that can be assigned

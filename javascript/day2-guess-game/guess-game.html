@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guess game</title>
+    </head>
+    <body>
+        <script>
+            var name=prompt("Enter your name")
+            console.log("Welcome to the game " +name)
+            var targetNumber=Math.round(Math.random()*100)
+            console.log(targetNumber)
+            var maxGuess=5, playerGuessCount=0
+            while(playerGuessCount<maxGuess)
+            {
+                var guess = parseInt(prompt('Enter a guess number'));
+                if(guess>targetNumber)
+                {
+                    console.log('OOPs!! your guess is high')
+                }
+                else if(guess<targetNumber)
+                {
+                    console.log('OOPs !! your guess is low')
+                }
+                else if(guess==targetNumber)
+                {
+                    console.log('You got the guess right '+name)
+                    break
+                }
+                playerGuessCount++
+            } 
+            if(playerGuessCount==maxGuess)
+            {
+                console.log('sorry you didn\'t get the number, the target number was '+targetNumber)
+                // \is used as escape character to keep the sentence as a single string eg: didn't -> didn\'t
+            }
+            </script>
+    </body>
+</html>

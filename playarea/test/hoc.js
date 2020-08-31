@@ -1,0 +1,2 @@
+// higher order component
+// a component (function) which takes another component (function) as an argument or a component (function) which returns another component (function) as value is called as a higher order components

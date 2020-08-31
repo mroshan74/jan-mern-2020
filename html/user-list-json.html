@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Json request user list</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+        const rootHandle = document.getElementById('root')
+        const url = 'https://jsonplaceholder.typicode.com/users'
+
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', url)
+        xhr.send()
+
+        // successfully receiving data
+        xhr.onload = function () {
+            // console.log(xhr.responseText)
+            // json to object -> json returned by the server is of string type
+            const users = JSON.parse(xhr.responseText)
+            console.log(users)
+
+            const h1Tag = document.createElement('h1')
+            h1Tag.innerHTML = 'user list'
+            rootHandle.appendChild(h1Tag)
+
+            for (const user of users) {
+                const ulTag = document.createElement('ul')
+                const liTag =document.createElement('li')
+                liTag.innerHTML = `${user.name}`
+                ulTag.appendChild(liTag)
+                rootHandle.appendChild(ulTag)
+            }
+        }
+     //error while getting data
+        xhr.onerror = function () {
+       }
+
+    </script>
+</body>
+
+</html>

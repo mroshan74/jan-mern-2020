@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>listing checked users</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class SelectUser extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                     users :[
+                        { id: 1, name: 'user1', select:false },
+                        { id: 2, name: 'user2', select:false },
+                        { id: 3, name: 'user3', select:false },
+                        { id: 4, name: 'user4', select:false },
+                        { id: 5, name: 'user5', select:false },
+                        { id: 6, name: 'user6', select:false }
+                    ],
+                }
+            }
+
+            handleCheck= (id) =>{
+               this.setState(prevState =>({
+                   users: prevState.users.map( user =>{
+                       if(user.id==id){
+                           return Object.assign({}, user ,{select : !user.select})
+                       }
+                       else
+                        return Object.assign({},user)
+                   })
+               }))    
+            }
+
+            render(){
+                return(
+                    <div>
+                        <h2>Listing user - {this.state.users.length}</h2>
+                        <table border='1'>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>name</th>
+                                    <th>action</th>
+                                </tr>
+                            </thead>
+                            <tbody>{
+                                this.state.users.map((user,i) =>{
+                                    return(
+                                        <tr key={user.id}>
+                                            <td>{i+1}</td>
+                                            <td>{user.name}</td>
+                                            <td><input type='checkbox' onChange={()=>{this.handleCheck(user.id)}}/></td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                            </tbody>
+                        </table>
+
+                        <h2>selected users</h2>
+                        <ul>
+                             {this.state.users.filter(user => user.select == true).map((user,i)=>{
+                                 return( <li key={i}>{user.name}</li> )
+                             })}
+                        </ul>
+                       
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<SelectUser/>,rootHandle)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>determine gender</title>
+</head>
+<style>
+    div{
+        background-color: #f0f0f0;
+        border: 1px;
+        margin:10px 10px;
+        padding: 5px 5px;
+        max-width: 350px;
+        max-height: 165px;
+    }
+    p,h2{
+        text-align: center;
+    }
+    #button{
+        color:white;
+        background-color: orange;
+        border: none;
+        width:90px;
+        height:20px;
+    }
+</style>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class DetermineGender extends React.Component{
+            constructor(){
+                super()
+                this.state={
+                    name:'',
+                    gender:'',
+                    status:false
+                }
+            }
+            handleChange = (e) =>{
+                this.setState({
+                    [event.target.name]:event.target.value,
+                    status:false
+                    })
+            }
+
+            handleSubmit = (e) => {
+                e.preventDefault()
+                if(this.state.name){
+                axios.get(`https://api.genderize.io/?name=${this.state.name}`)
+                .then((response) =>{
+                    const gender = response.data.gender
+                    this.setState({
+                        gender,
+                        status:true
+                        })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
+            else{
+                alert(`name field can't be empty`)
+            }
+            }
+            render(){
+                return(
+                    <div>
+                        <form onSubmit={this.handleSubmit}>
+                        <h2>Determine Gender</h2>
+                        <label htmlFor="name">name  </label>
+                        <input type="text" name='name' value={this.state.name} onChange={this.handleChange}/>
+                        <br/><br/>
+                        <input type="submit" id='button' value='submit'/>
+                        {this.state.status && (<p>name : {this.state.name} <br/> gender : {this.state.gender}</p>)}
+                        </form>
+
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<DetermineGender />,rootHandle)
+    </script>
+
+</body>
+
+</html>

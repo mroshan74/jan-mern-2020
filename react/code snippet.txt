@@ -1,0 +1,17 @@
+slowString = (string) =>{
+                //console.log(string)
+                let print ='',count=0
+                let strArray = string.split('')
+                const interval= setInterval(() => {
+                        print += strArray[0]
+                        //console.log(print)
+                        strArray.shift()
+                        count++
+                        if(count>=string.length){
+                            clearInterval(interval)
+                        }
+                        //this.setState({print})
+                    }, 1500);
+                console.log(print)
+                
+            }

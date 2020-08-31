@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Component Architecture </title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        function ComponentOne(props) {
+                return (
+                    <div>
+                        <h1> Component One </h1>
+                    </div>
+                )
+            }
+
+            function ComponentTwo(props) {
+
+                return (
+                    <div>
+                        <h1> Component Two </h1>
+                        <ComponentFour />
+                        <ComponentFour />
+                        <hr />
+                        <ComponentThree />
+                    </div>
+                )
+            }
+
+            function ComponentThree(props) {
+                return (
+                    <div>
+                        <h2> Component Three </h2>
+                    </div>
+                )
+            }
+
+            function ComponentFour(props) {
+                return (
+                    <div>
+                        <h2> Component Four </h2>
+                    </div>
+                )
+            }
+
+            function App(props) {
+                return (
+                    <div>
+                        <ComponentOne />
+                        <ComponentTwo />
+                    </div>
+                )
+            }
+
+            ReactDOM.render(<App />, rootHandle)
+    </script>
+
+</body>
+
+</html>

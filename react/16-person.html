@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>react component</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+    
+    
+        function Person(props) {
+            // props.name = 'anonymous' // props cant be modified, its throw an error can't assign to read only property'
+
+            return <h1>Hello, {props.name}</h1>
+        }
+
+        const ele = (
+        <div>
+            <Person name='roshan' />
+            <Person name='muhammed' />
+            <Person name='azim' />
+            {/* <Person name='rafat' />*/}
+        </div>
+        )
+    ReactDOM.render(ele, rootHandle)
+    </script>
+
+
+
+</body>
+
+</html>

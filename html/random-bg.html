@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Even Odd</title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+        const rootHandle = document.getElementById('root')
+
+        const h1Tag = document.createElement('h1')
+        rootHandle.appendChild(h1Tag)
+
+        const genBtn = document.createElement('button')
+        genBtn.innerHTML = 'generate'
+        rootHandle.appendChild(genBtn)
+
+        let list = [], randomNo
+        genBtn.addEventListener('click', () => {
+            const randomGen = Math.round(Math.random() * 100)
+            if (randomGen % 2 == 0) {
+                randomNo = h1Tag.innerHTML = `${randomGen}`.fontcolor('white')
+                list.push(randomNo)
+                document.body.style.backgroundColor = 'green'
+            }
+            else {
+                randomNo = h1Tag.innerHTML = `${randomGen}`.fontcolor('black')
+                list.push(randomNo)
+                document.body.style.backgroundColor = 'red'
+            }
+
+            const h2Tag = document.createElement('h2')
+            for (const ele of list) {
+                h2Tag.innerHTML = ele
+                rootHandle.appendChild(h2Tag)
+            }
+        })
+    </script>
+</body>
+
+</html>

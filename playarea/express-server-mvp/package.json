@@ -1,0 +1,17 @@
+{
+  "name": "express-server-mvp",
+  "version": "1.0.0",
+  "description": "express server with mvp",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "roshan",
+  "license": "ISC"
+}

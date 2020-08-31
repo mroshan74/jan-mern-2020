@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Forms</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class Registration extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    username: '',
+                    email: '',
+                    password:'',
+                    bio:'',
+                    gender:'male'
+                }
+            }
+            handleUsernameChange = (event) => {
+                const username = event.target.value
+                this.setState({ username })
+            }
+            handleEmailChange = (event) => {
+                const email = event.target.value
+                this.setState({ email })
+            }
+            handlePasswordChange = (event) => {
+                const password = event.target.value
+                this.setState({ password })
+            }
+            handleBioChange = (event) => {
+                const bio = event.target.value
+                this.setState({ bio })
+            }
+            handleGenderChange = (gender) =>{
+                this.setState({gender})
+            }
+            handleSubmit = (event) => {
+                event.preventDefault()
+                const formData = {
+                    username: this.state.username,
+                    email: this.state.email,
+                    password:this.state.password,
+                    bio:this.state.bio,
+                    gender:this.state.gender
+                }
+                console.log(formData)
+            }
+            render() {
+                //console.log(this.state)
+                return (
+                    <div>
+                        <form onSubmit={this.handleSubmit}>
+                            <h1>Registration Form</h1>
+
+                            <label htmlFor='username'>username</label>
+                            <input type="text" id='username' value={this.state.username} onChange={this.handleUsernameChange} placeholder='enter username' /><br /><br /> {/* value is linked with state -> to get updated state*/}
+
+                            <label htmlFor='email'>email</label>
+                            <input type="text" id='email' value={this.state.email} onChange={this.handleEmailChange} placeholder='enter email' /><br /><br />
+
+                            <label htmlFor='password'>password</label>
+                            <input type="password" id='password' value={this.state.password} onChange={this.handlePasswordChange} placeholder='enter password' /><br /><br />
+
+                            <label htmlFor='bio'>bio</label>
+                            <textarea id='bio' value={this.state.bio} onChange={this.handleBioChange} placeholder='enter bio...'></textarea><br /><br />
+
+                            <input type="radio" id='genderM' value={this.state.gender} onChange={() => this.handleGenderChange('male')} name='gender' 
+                            checked={this.state.gender == 'male'}
+                            />
+                             <label htmlFor='genderM'>Male</label>
+
+                             <input type="radio" id='genderF' value={this.state.gender} onChange={() => this.handleGenderChange('female')} name='gender' />
+                            <label htmlFor='genderF'>Female</label>
+
+                            <br /><br /><input type='submit' value='Register Now' />
+                        </form>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Registration />, rootHandle)
+    </script>
+
+</body>
+
+</html>

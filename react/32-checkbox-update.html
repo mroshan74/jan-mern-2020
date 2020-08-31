@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>show</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class TasksList extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    tasks: [
+                        { id: 1, title: 'db back', completed: false },
+                        { id: 2, title: 'server setup', completed: true }
+                    ]
+                }
+            }
+
+            handleClick = (task) => {
+                alert(`id- ${task.id}, title- ${task.title}, completed- ${task.completed}`)
+            }
+            handleComplete = (id) => {
+                this.setState(function(prevState){
+                    return{
+                        tasks: prevState.tasks.map(function(task){
+                            if(task.id==id){
+                                return Object.assign({}, task, {completed: !task.completed})
+                            }
+                            else{
+                                return Object.assign({},task)
+                            }
+                        })
+                    }
+                })
+            }
+
+            render() {
+                console.log(this.state.tasks)
+                return (
+                    <div>
+                        <h2> Listing Tasks - {this.state.tasks.length} </h2>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th> sl no </th>
+                                    <th> title </th>
+                                    <th> actions </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.state.tasks.map((task, i) => {
+                                        return (
+                                            <tr key={task.id}>
+                                                <td> {i + 1} </td>
+                                                <td> {task.title} </td>
+                                                <td>
+                                                    <input type="checkbox" checked={task.completed} onChange={() => this.handleComplete(task.id)} />
+                                                    <button onClick={() => { this.handleClick(task) }}>Show</button> 
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<TasksList />, rootHandle)
+    </script>
+
+</body>
+
+</html>

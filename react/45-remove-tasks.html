@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>remove task parent-child</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class TasksList extends React.Component {
+                constructor() {
+                    super()
+                    this.state = {
+                        tasks: [
+                            { id: 1, title: 'db back', completed: false },
+                            { id: 2, title: 'server setup', completed: true }
+                        ]
+                    }
+                }
+
+                handleRemove = (id) => {
+                    this.setState(prevState =>({
+                        tasks: prevState.tasks.filter(task => task.id!=id)
+                    }))
+                }
+
+
+                render() {
+                    return (
+                        <div>
+                            <h2> Listing Tasks - {this.state.tasks.length} </h2>
+                            <TaskTable tasks={this.state.tasks} handleRemove={this.handleRemove}/>
+                        </div>
+                    )
+                }
+            }
+
+            function TaskTable(props) {
+                return (
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th> sl no </th>
+                                <th> title </th>
+                                <th> actions </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                props.tasks.map((task, i) => {
+                                    return (
+                                        <tr key={task.id}>
+                                            <td> {i + 1} </td>
+                                            <td> {task.title} </td>
+                                            <td>
+
+                                                <button onClick={()=>{props.handleRemove(task.id)}}> remove </button>
+
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                )
+            }
+
+            ReactDOM.render(<TasksList />, rootHandle)
+    </script>
+
+</body>
+
+</html>

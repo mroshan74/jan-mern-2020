@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>class assignment</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class ListUser extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    users = [
+                        { id: 1, name: 'user1', email: 'user1@gmail.com', approved: false},
+                        { id: 2, name: 'user2', email: 'user2@gmail.com', approved: true },
+                        { id: 3, name: 'user3', email: 'user3@gmail.com', approved: true },
+                        { id: 4, name: 'user4', email: 'user4@gmail.com', approved: false },
+                        { id: 5, name: 'user5', email: 'user5@gmail.com', approved: false },
+                    ],
+                    name: '',
+                    email:'',
+                    status: true
+                }
+            }
+            handleChange = (e) =>{
+                this.setState({
+                    [e.target.name] : e.target.value
+                })
+            }
+            render(){
+                return(
+                    <div>
+                        <h3>Listing Users - {this.state.users.length}</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<ListUser/>,rootHandle)
+    </script>
+
+</body>
+
+</html>

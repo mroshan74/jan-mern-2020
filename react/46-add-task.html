@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>working with state and components</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+    <!-- https://unpkg.com/axios@0.19.0/dist/axios.js -->
+    <script src="./js/axios.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+         class TasksApp extends React.Component {
+                constructor() {
+                    super()
+                    this.state = {
+                        tasks: [
+                            { id: 1, title: 'db back', completed: false },
+                            { id: 2, title: 'server setup', completed: true }
+                        ],
+
+                    }
+                }
+
+                handleRemove = (id) => {
+                    this.setState(prevState => ({
+                        tasks: prevState.tasks.filter(task => task.id!=id)
+                    }))
+                }
+
+                handleAdd = (getData) => {
+                    this.setState(prevState => ({
+                        tasks: prevState.tasks.concat(getData)
+                    }))
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <h2> Listing Tasks - {this.state.tasks.length} </h2>
+                            <TaskTable tasks={this.state.tasks} handleRemove={this.handleRemove}/>
+                            <AddTask handleAdd={this.handleAdd}/>
+                        </div>
+                    )
+                }
+            }
+
+            function TaskTable(props) {
+                return (
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th> sl no </th>
+                                <th> title </th>
+                                <th> actions </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                props.tasks.map((task, i) => {
+                                    return (
+                                        <tr key={task.id}>
+                                            <td> {i + 1} </td>
+                                            <td> {task.title} </td>
+                                            <td><button onClick={()=>{props.handleRemove(task.id)}}>remove</button></td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                )
+            }
+
+            class AddTask extends React.Component {
+
+                constructor(){
+                    super()
+                    this.state = {
+                        title:''
+                    }
+                }
+
+                handleChange = (e) => {
+                    const title = e.target.value
+                    this.setState({
+                       [e.target.name]:e.target.value
+                    })
+                }
+
+                handleSubmit = (e) => {
+                    e.preventDefault()
+                    if(this.state.title){
+                    const formData = {
+                        id: Number(new Date()),
+                        title:this.state.title
+                    }
+                    this.setState({title:''})
+                    console.log(formData)
+                    this.props.handleAdd(formData)
+                    }
+                    else{
+                        alert('title cant be empty')
+                    }
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <h2> Add Task </h2>
+                            <form onSubmit={this.handleSubmit}>
+                                <label htmlFor="title"> title </label>
+                                <input type="text" id="title" name='title' value={this.state.title} onChange={this.handleChange}/>
+                                <input type="submit" value="add" />
+
+                            </form>
+                        </div>
+                    )
+                }
+            }
+
+            ReactDOM.render(<TasksApp />, rootHandle)
+    </script>
+
+</body>
+
+</html>

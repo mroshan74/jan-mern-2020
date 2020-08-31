@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>slider</title>
+</head>
+<style>
+    div{
+        margin:auto 100px auto 100px
+    }
+    h1,h2{
+        text-align: center;
+        font-family: sans-serif;
+    }
+    hr{
+        align-content: center;
+        max-width: 180px;
+    }
+    .slider{
+        margin: auto 170px
+    }
+</style>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        class Slider extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    xValue:0
+                }
+            }
+
+            handleSlider = () => {
+                this.setState(function(xValue){
+                    return{
+                    xValue: document.getElementById('slider').value
+                    }
+                })
+            }
+            
+            render(){
+                return(
+                    <div>
+                        <h1>Miles to  Km converter</h1>
+                        <hr/>
+                        <h2>KM: {(this.state.xValue * 1.6).toFixed(2)}</h2>
+                        <h2>Miles: {this.state.xValue}</h2>
+                        <input type='range' min='0' max='100' defaultValue='0' id='slider' class='slider' onClick={this.handleSlider}/>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Slider />,rootHandle)
+    </script>
+
+</body>
+
+</html>

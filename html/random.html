@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random</title>
+</head>
+<body>
+    <div id = "root"></div>
+    <script>
+        const rootHandle = document.getElementById('root')
+
+        const h1Tag = document.createElement('h1')
+        rootHandle.appendChild(h1Tag)
+
+        const genBtn = document.createElement('button')
+        genBtn.innerHTML = 'generate'
+        rootHandle.appendChild(genBtn)
+
+        genBtn.addEventListener('click',() =>{
+            h1Tag.innerHTML = Math.round(Math.random()*100)
+        })
+    </script>
+
+    
+</body>
+</html>

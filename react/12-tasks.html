@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>conditional rendering</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <!-- https://unpkg.com/react@16.12.0/umd/react.development.js -->
+    <script src="./js/react.development.js"></script>
+    <!-- https://www.unpkg.com/react-dom@16.12.0/umd/react-dom.development.js -->
+    <script src="./js/react-dom.development.js"></script>
+    <!-- https://unpkg.com/babel-standalone@6.26.0/babel.js -->
+    <script src="./js/babel.js"></script>
+
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById('root')
+        const tasks =[
+            { id: 1, title: 'db backup', completed: true },
+            { id: 2, title: 'server deploy', completed: false },
+            { id: 3, title: 'feature addition', completed: false },
+            { id: 4, title: 'host', completed: true },
+            { id: 5, title: 'optimize speed', completed: true },
+        ]
+        const ele = (
+            <ul>{
+            tasks.map(function (ele){
+                return (<li key= {ele.id}>{ele.completed ? <s>{ele.title}</s>:ele.title} - {ele.completed ? 'completed':'ongoing'}</li>)
+            })
+            }</ul>
+        )
+        ReactDOM.render(ele, rootHandle)
+    </script>
+
+</body>
+
+</html>
